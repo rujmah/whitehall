@@ -15,6 +15,9 @@ Whitehall::Application.routes.draw do
     root to: "site#index"
     match 'feed.atom' => 'site#index', format: false, defaults: { format: 'atom' }, as: :atom_feed
 
+    match "/api/:resource_type/:id.:format", to: 'api#show'
+    match "/api/:resource_type.:format", to: 'api#index'
+
     resources :announcements, only: [:index], path: 'news-and-speeches'
     resources :policies, only: [:index, :show] do
       resources :supporting_pages, path: "supporting-pages", only: [:index, :show]
