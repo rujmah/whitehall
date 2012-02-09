@@ -1,15 +1,4 @@
-class OrganisationPagePresenter
-  include Rails.application.routes.url_helpers
-
-  attr_accessor :controller, :subject
-  delegate :params, :to => :controller
-  delegate :errors, :to => :subject
-
-  def initialize(controller, subject)
-    @controller = controller
-    @subject = subject
-  end
-
+class OrganisationPagePresenter < BasePresenter
   def as_json(options = {})
   	{
   		response: {

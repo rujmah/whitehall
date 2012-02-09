@@ -1,17 +1,4 @@
-class OrganisationPresenter
-  include Rails.application.routes.url_helpers
-  include PublicDocumentRoutesHelper
-
-  attr_accessor :controller, :subject
-  delegate :params, :to => :controller
-  delegate :request, :to => :controller
-  delegate :errors, :to => :subject
-
-  def initialize(controller, subject)
-    @controller = controller
-    @subject = subject
-  end
-
+class OrganisationPresenter < BasePresenter
   def minimum_for_json
     {
       name: subject.name,
@@ -30,6 +17,10 @@ class OrganisationPresenter
     }    
   end
 
+  def relationships_for_json
+    return []
+  end
+
   def as_json(options = {})
     if options[:partial]
       return minimum_for_json
@@ -39,7 +30,7 @@ class OrganisationPresenter
           status: "ok",
           total: subject.documents.count,
           content: minimum_for_json.merge(fields: extra_fields_for_json),
-          relations: "Child/Parent Orgs, People, Policy Areas",
+          relations: relationships_for_json,
           contents: subject.documents.collect { |d|
             {
               title: d.title,
