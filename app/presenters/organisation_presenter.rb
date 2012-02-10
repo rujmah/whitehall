@@ -38,7 +38,7 @@ class OrganisationPresenter < BasePresenter
         }
       }
       if subject.respond_to?(:documents)
-        response[:contents] = subject.documents.collect do |d|
+        response[:response][:contents] = subject.documents.collect do |d|
           {
             title: d.title,
             type: type_identifier(d),
