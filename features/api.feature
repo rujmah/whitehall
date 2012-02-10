@@ -10,16 +10,20 @@ Scenario: Retrieving a list of organisations
 
 Scenario: Organisation response should show documents
   Given the organisation "Attorney General's Office" contains some policies
-  When I make an API call to "/government/api/organisations/1.json"
+  When I make an API call to "/government/api/organisations/attorney-generals-office.json"
   Then I should receive a JSON response for the "Attorney General's Office" organisation
   And I should see policies included in the contents
 
-@wip
-Scenario: Organisation response contains multiple agencies
-  Given that "BIS" is responsible for "Companies House" and "UKTI"
-  When I visit the "BIS" organisation
-  Then I should see that "BIS" is responsible for "Companies House"
-  And I should see that "BIS" is responsible for "UKTI"
-
-@wip
-Scenario: API responses should be traversable
+# @wip
+# Scenario: Organisation response contains multiple agencies
+#   Given that "Attorney General's Office" is responsible for "Companies House" and "UKTI"
+#   When I make an API call to "/government/api/organisations/attorney-generals-office.json"
+#   Then I should receive a JSON response for the "Attorney General's Office" organisation
+#   And I should see "Companies House" as a related item
+#
+# @wip
+# Scenario: API responses should be traversable
+#   Given the organisation "Attorney General's Office" contains some policies
+#   When I make an API call to "/government/api/organisations/attorney-generals-office.json"
+#   And I follow the api_uri link for the first content item
+#   Then I should receive a JSON response for a policy
