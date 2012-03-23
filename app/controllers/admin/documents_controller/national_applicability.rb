@@ -9,7 +9,7 @@ module Admin::DocumentsController::NationalApplicability
 
   def create
     params[:document][:nation_inapplicabilities_attributes] ||= {}
-    @document = document_class.new(params[:document].merge(creator: current_user))
+    build_document
     if @document.save
       redirect_to admin_document_path(@document), notice: "The document has been saved"
     else

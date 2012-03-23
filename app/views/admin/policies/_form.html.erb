@@ -11,5 +11,7 @@
 
   <%= form.check_box :stub, label_text: "Stub?" %>
 
+  <%= render partial: 'editorial_remarks', locals: { form: form, document: document } %>
+
   <%= form.save_or_cancel %>
 <% end %>

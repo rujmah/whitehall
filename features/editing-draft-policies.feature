@@ -10,6 +10,12 @@ Scenario: Creating a new draft policy
   When I draft a new policy "Outlaw Moustaches"
   Then I should see the policy "Outlaw Moustaches" in the list of draft documents
 
+@wip
+Scenario: Adding editorial notes to a draft policy
+  When I draft a new policy "Outlaw Moustaches" with editorial remarks "needs more research before submitting"
+  Then I edit the policy "Outlaw Moustaches"
+  Then I should see the remark "needs more research before submitting" in the activity section
+
 Scenario: Creating a new draft policy in multiple policy topics
   Given two policy topics "Facial Hair" and "Hirsuteness" exist
   When I draft a new policy "Outlaw Moustaches" in the "Facial Hair" and "Hirsuteness" policy topics

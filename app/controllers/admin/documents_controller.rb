@@ -3,6 +3,7 @@ class Admin::DocumentsController < Admin::BaseController
   before_filter :prevent_modification_of_unmodifiable_document, only: [:edit, :update]
   before_filter :default_arrays_of_ids_to_empty, only: [:update]
   before_filter :build_document, only: [:new, :create]
+  before_filter :build_blank_editorial_remark, only: [:new, :edit, :create]
   before_filter :remember_filters, only: [:draft, :submitted, :published]
   before_filter :detect_other_active_editors, only: [:edit]
 
@@ -97,14 +98,23 @@ class Admin::DocumentsController < Admin::BaseController
     Document
   end
 
-  def document_params
-    (params[:document] || {}).merge(creator: current_user)
-  end
-
   def build_document
+    document_params = (params[:document] || {}).merge(creator: current_user)
+    if params[:document] && params[:document][:editorial_remarks_attributes]
+      document_params[:editorial_remarks_attributes]["0"][:author_id] = current_user.id
+    end
     @document = document_class.new(document_params)
+    require 'ruby-debug'; debugger
+    @document
   end
 
+  def build_blank_editorial_remark
+    unpersisted_remarks = @document.editorial_remarks.reject {|e| e.persisted?}
+    if unpersisted_remarks.blank?
+      @document.editorial_remarks.build(author: current_user) 
+    end
+  end
+  
   def find_document
     @document = document_class.find(params[:id])
   end

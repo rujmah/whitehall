@@ -130,6 +130,20 @@ When /^I draft a new policy "([^"]*)"$/ do |title|
   click_button "Save"
 end
 
+When /^I draft a new policy "([^"]*)" with editorial remarks "([^"]*)"$/ do |title, editorial_remark|
+  begin_drafting_policy title: title
+  fill_in "Editorial remarks", with: editorial_remark
+  click_button "Save"
+end
+
+Then /^I edit the policy "([^"]*)"$/ do |title|
+  begin_editing_document title
+end
+
+Then /^I should see the remark "([^"]*)" in the activity section$/ do |editorial_remark|
+  assert page.has_css?('.audit-trail li', text: editorial_remark)
+end
+
 When /^I draft a new policy "([^"]*)" in the "([^"]*)" and "([^"]*)" policy topics$/ do |title, first_policy_topic, second_policy_topic|
   begin_drafting_policy title: title
   select first_policy_topic, from: "Policy topics"

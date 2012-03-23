@@ -14,10 +14,12 @@ class Document < ActiveRecord::Base
   include PublicDocumentRoutesHelper
   include Searchable
 
-  has_many :editorial_remarks, dependent: :destroy
+  has_many :editorial_remarks, dependent: :destroy, inverse_of: :document
   has_many :document_authors, dependent: :destroy
 
   validates :title, :body, :creator, presence: true
+
+  accepts_nested_attributes_for :editorial_remarks
 
   class UnmodifiableOncePublishedValidator < ActiveModel::Validator
     def validate(record)

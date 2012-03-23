@@ -1,14 +1,6 @@
-<% if document.editorial_remarks.any? %>
-  <section id="editorial_remarks" class="container">
-    <h1>Editorial remarks</h1>
-    <ul>
-      <% document.editorial_remarks.each do |editorial_remark| %>
-        <li class="editorial_remark">
-          <span class="author"><%= editorial_remark.author.name %></span>
-          wrote <%= time_ago(editorial_remark.created_at, class: 'created_at') %>:
-          <div class="body"><%= editorial_remark.body %></div>
-        </li>
-      <% end %>
-    </ul>
-  </section>
-<% end %>
+<fieldset>
+  <% unpersisted_remarks = @document.editorial_remarks.select {|e| !e.persisted?} %>
+  <%= form.fields_for :editorial_remarks, unpersisted_remarks.first do |editorial_remark| %>
+    <%= editorial_remark.text_area :body, rows: 2, label_text: "Editorial remarks" %>
+  <% end %>
+</fieldset>
