@@ -18,7 +18,7 @@ class PersonPresenter < Draper::Base
   end
 
   def url
-    h.person_url model
+    h.person_path model
   end
 
   def image
